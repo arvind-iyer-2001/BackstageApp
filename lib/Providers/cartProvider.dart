@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import './equipment.dart';
+import './inventoryProvider.dart';
 
 class CartItem with ChangeNotifier {
   @required final String title;
@@ -8,8 +9,12 @@ class CartItem with ChangeNotifier {
   @required final String id;
   @required final Category category;
   
-
-  CartItem({this.title,this.barcode,this.id,this.category});
+  CartItem({
+    this.title,
+    this.barcode,
+    this.id,
+    this.category
+  });
 }
 
 class Cart with ChangeNotifier {
@@ -17,6 +22,10 @@ class Cart with ChangeNotifier {
 
   Map<String, CartItem> get items {
     return {..._items};
+  }
+
+  List<InventoryItem> get inventoryItem{
+    return inventoryItemsList.where((item) => items.containsKey(item.itemId));
   }
   
   int get itemCount {
