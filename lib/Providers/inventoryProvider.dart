@@ -1,5 +1,23 @@
 import 'package:flutter/material.dart';
 
+class ItemLog {
+  final DateTime borrowTime;
+  final DateTime returnTime;
+  final String usageID;
+  // final User borrowUser;
+  // final User returnUser;
+  // final Event event;
+
+  ItemLog({
+    this.borrowTime,
+    this.returnTime,
+    this.usageID
+    // this.borrowUser,
+    // this.returnUser,
+    // this.event,
+  });
+}
+
 class InventoryItem with ChangeNotifier{
   @required final String barcode;
   @required final String titleSuffix;
@@ -7,6 +25,8 @@ class InventoryItem with ChangeNotifier{
   @required final String itemId;
   @required bool workingCondition;
   bool borrowed;
+  List<ItemLog> log;
+
 
   InventoryItem({
     this.barcode,
@@ -14,7 +34,8 @@ class InventoryItem with ChangeNotifier{
     this.itemId,
     this.titleSuffix,
     this.workingCondition,
-    this.borrowed
+    this.borrowed,
+    this.log
   });
 
 }
@@ -26,7 +47,8 @@ List<InventoryItem> inventoryItemsList = [
       itemId: "M-111-111",
       titleSuffix: "",
       workingCondition: true,
-      borrowed: false
+      borrowed: false,
+      log: [],
     ),
     InventoryItem(
       barcode: "M-111-112",
@@ -34,7 +56,8 @@ List<InventoryItem> inventoryItemsList = [
       itemId: "M-111-112",
       titleSuffix: "",
       workingCondition: false,
-      borrowed: false
+      borrowed: false,
+      log: [],
     ),
     InventoryItem(
       barcode: "M-111-113",
@@ -42,7 +65,8 @@ List<InventoryItem> inventoryItemsList = [
       itemId: "M-111-113",
       titleSuffix: "",
       workingCondition: true,
-      borrowed: false
+      borrowed: false,
+      log: [],
     ),
     InventoryItem(
       barcode: "M-111-114",
@@ -50,7 +74,8 @@ List<InventoryItem> inventoryItemsList = [
       itemId: "M-111-114",
       titleSuffix: "",
       workingCondition: false,
-      borrowed: false
+      borrowed: false,
+      log: [],
     ),
     InventoryItem(
       barcode: "M-111-115",
@@ -58,7 +83,8 @@ List<InventoryItem> inventoryItemsList = [
       itemId: "M-111-115",
       titleSuffix: "",
       workingCondition: true,
-      borrowed: false
+      borrowed: false,
+      log: [],
     ),
   ];
 

@@ -6,35 +6,17 @@ class BorrowedItem with ChangeNotifier{
   final String itemId;
   final InventoryItem inventoryItem;
   final DateTime borrowTimeStamp;
-  final String borrowId;
+  final String usageId;
   // final String uidUserStamp;
 
   BorrowedItem({
     this.itemId,
     this.inventoryItem,
     this.borrowTimeStamp,
-    this.borrowId
+    this.usageId
     // this.uidUserStamp
   });
 }
-
-class ReturnedItem with ChangeNotifier{
-  final String itemId;
-  final InventoryItem inventoryItem;
-  final DateTime borrowTimeStamp;
-  final String borrowId;
-  // final String uidUserStamp;
-
-  ReturnedItem({
-    this.itemId,
-    this.inventoryItem,
-    this.borrowTimeStamp,
-    this.borrowId
-    // this.uidUserStamp
-  });
-}
-
-
 
 class Borrow with ChangeNotifier {
   List<BorrowedItem> _borrowedItems = [];
@@ -43,14 +25,14 @@ class Borrow with ChangeNotifier {
     return [..._borrowedItems];
   }
 
-  void borrowItem(List<InventoryItem> inventoryItems) {
+  void borrowItem(List<InventoryItem> inventoryItemsFromCart) {
     var currentTime =DateTime.now();
-    inventoryItems.forEach((inventoryItem) {
+    inventoryItemsFromCart.forEach((inventoryItem) {
       _borrowedItems.insert(
         0,
         BorrowedItem(
           itemId: inventoryItem.itemId,
-          borrowId: currentTime.toIso8601String(),
+          usageId: currentTime.toIso8601String(),
           borrowTimeStamp: currentTime,
           inventoryItem: inventoryItem
         ),
@@ -59,31 +41,21 @@ class Borrow with ChangeNotifier {
       notifyListeners();
     });
   }
-}
 
-class Return with ChangeNotifier {
-  List<ReturnedItem> _returnedItems = [];
-
-  List<ReturnedItem> get returnedItems {
-    return [..._returnedItems];
-  }
-
-  void returnItem(List<InventoryItem> inventoryItems, double total) {
+  void returnItem(BorrowedItem borrowedItem) {
     var currentTime =DateTime.now();
-    inventoryItems.forEach((inventoryItem) {
-      _returnedItems.insert(
+      borrowedItem.inventoryItem.log.insert( 
         0,
-        ReturnedItem(
-          itemId: inventoryItem.itemId,
-          borrowId: currentTime.toIso8601String(),
-          borrowTimeStamp: currentTime,
-          inventoryItem: inventoryItem
-        ),
+        ItemLog(
+          borrowTime: borrowedItem.borrowTimeStamp,
+          returnTime: currentTime,
+          usageID: borrowedItem.usageId
+        )
       );
-      notifyListeners();
+      borrowedItem.inventoryItem.borrowed =false;
+      _borrowedItems.remove(borrowedItem);
 
-    });
+      // Ask if there are any problems with the Item and Update the Item Log
+      notifyListeners();
   }
 }
-
-
