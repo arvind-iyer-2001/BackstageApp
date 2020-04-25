@@ -1,4 +1,4 @@
-
+import 'package:backstage/Inventory/borrowed.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -6,8 +6,7 @@ import './cartTiles.dart';
 
 import '../Providers/equipment.dart';
 import '../Providers/cartProvider.dart';
-
-// import '../Supplementary%20Widgets/constants.dart';
+import '../Providers/borrow&return.dart';
 
 class CheckOutScreen extends StatefulWidget {
   static const routeName = 'Check Out Screen';
@@ -41,7 +40,42 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
             RaisedButton(
               child: Text("Borrow Items"),
               onPressed: () {
-                // Borrow Items
+                // async {
+                // await showDialog(
+                //   context: context,
+                //   builder: (context) => new AlertDialog(
+                //     title: new Text('Are you sure?'),
+                //     content: new Text('Do you want to borrow these Items?'),
+
+                //     actions: <Widget>[
+                //       new GestureDetector(
+                //         onTap: () => Navigator.of(context).pop(),
+                //         child: Text("NO"),
+                //       ),
+                //       SizedBox(height: 16),
+                //       new GestureDetector(
+                //         onTap: () {
+                //           Provider.of<BorrowReturn>(context, listen: false).borrowItem(
+                //             cart.inventoryItem
+                //           );
+                //           cart.clear();
+                //           Navigator.of(context).pushReplacementNamed(BorrowedItemsScreen.routeName);
+                //         } ,
+                //         child: Text("YES"),
+                //       ),
+                //     ],
+                //   ),
+                  
+                  
+                // // ).then(
+                  
+                // //   // Scaffold.of(context).openEndDrawer((_) => )
+                // );
+                Provider.of<BorrowReturn>(context, listen: false).borrowItem(
+                  cart.inventoryItem
+                );
+                cart.clear();
+                Navigator.of(context).pushReplacementNamed(BorrowedItemsScreen.routeName);
               },
             ),
 

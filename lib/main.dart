@@ -1,14 +1,16 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import './Inventory/currentInventoryScreen.dart';//1
-import './Inventory/inventoryDetails.dart';//2
+import './Inventory/currentInventoryScreen.dart'; // 1
+import './Inventory/inventoryDetails.dart'; // 2
+import './Inventory/checkOutCartScreen.dart'; // 3
+import './Inventory/borrowed.dart'; // 4
 
 import './Providers/equipment.dart';
-import './Providers/cartProvider.dart';
 import './Providers/inventoryProvider.dart';
-import './Inventory/checkOutCartScreen.dart';
+import './Providers/cartProvider.dart';
+import './Providers/borrow&return.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -26,6 +28,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: Cart(),
         ),
+        ChangeNotifierProvider.value(
+          value: BorrowReturn(),
+        ),
       ],
       child: MaterialApp(
         title: 'MyShop',
@@ -40,6 +45,7 @@ class MyApp extends StatelessWidget {
           CurrentInventoryScreen.routeName: (ctx) => CurrentInventoryScreen(), 
           InventoryDetail.routeName: (ctx) => InventoryDetail(),
           CheckOutScreen.routeName: (ctx) => CheckOutScreen(),
+          BorrowedItemsScreen.routeName: (ctx) => BorrowedItemsScreen(),
           
         },
       ),

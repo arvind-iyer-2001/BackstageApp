@@ -25,7 +25,7 @@ class Cart with ChangeNotifier {
   }
 
   List<InventoryItem> get inventoryItem{
-    return inventoryItemsList.where((item) => items.containsKey(item.itemId));
+    return inventoryItemsList.where((item) => items.containsKey(item.itemId)).toList();
   }
   
   int get itemCount {
@@ -35,14 +35,11 @@ class Cart with ChangeNotifier {
   List<CartItem> fetchByCategory(Category category){
     var _categoryItems = _items.values.where((cartItem) => cartItem.category == category).toList();
     if(_categoryItems.isEmpty){
-      notifyListeners();
       return [];
     }
     if(category == Categories[0]){
-      notifyListeners();
       return _items.values.toList();
     }
-    notifyListeners();
     return _categoryItems;
   }
 

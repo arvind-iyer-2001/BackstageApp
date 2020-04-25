@@ -96,8 +96,6 @@ class CurrentInventoryScreen extends StatelessWidget {
                 value: cart.itemCount.toString(),
                 color: Colors.red,
               ),
-              
-                 
             ),
             PopupMenuButton(
               icon: Icon(Icons.category),

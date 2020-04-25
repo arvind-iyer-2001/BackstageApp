@@ -18,7 +18,7 @@ class BorrowedItem with ChangeNotifier{
   });
 }
 
-class Borrow with ChangeNotifier {
+class BorrowReturn with ChangeNotifier {
   List<BorrowedItem> _borrowedItems = [];
 
   List<BorrowedItem> get borrowedItems {
