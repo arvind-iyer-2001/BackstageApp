@@ -57,7 +57,7 @@ class InventoryDetail extends StatelessWidget {
                     itemBuilder: (ctx, index) => Container(
                       child: Image.network(
                         equipment.imageUrl[index],
-                        fit: BoxFit.cover,
+                        fit: BoxFit.contain,
                       ),
                       // PageView & PageController https://www.youtube.com/watch?v=J1gE9xvph-A 
                     ),

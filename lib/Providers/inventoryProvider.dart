@@ -89,7 +89,6 @@ List<InventoryItem> inventoryItemsList = [
   ];
 
 class InventoryFunctions with ChangeNotifier{
-  
 
   List<InventoryItem> get items {
     return [...inventoryItemsList];

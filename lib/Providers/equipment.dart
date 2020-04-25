@@ -310,11 +310,11 @@ final List<EquipmentItem> _equipmentItems = [
         "No On-Off Switch"
       ],
       imageUrl: [
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Spaghetti_Bolognese_mit_Parmesan_oder_Grana_Padano.jpg/800px-Spaghetti_Bolognese_mit_Parmesan_oder_Grana_Padano.jpg",
-        "https://cdn.pixabay.com/photo/2018/07/11/21/51/toast-3532016_1280.jpg",
-        "https://cdn.pixabay.com/photo/2014/10/23/18/05/burger-500054_1280.jpg",
-        "https://cdn.pixabay.com/photo/2018/03/31/19/29/schnitzel-3279045_1280.jpg",
-        "https://cdn.pixabay.com/photo/2016/10/25/13/29/smoked-salmon-salad-1768890_1280.jpg",
+        "https://d2dfnis7z3ac76.cloudfront.net/shure_product_db/product_main_images/files/cf1/51c/44-/header_transparent/dc53d07c046536d8b078318e129876f2.png",
+        "https://s3.us-east-2.amazonaws.com/shure-pubs-staging/graphics/f_503158fd-2aa5-4035-9fde-f687d47d6c04-ENG.png",
+        "https://s3.us-east-2.amazonaws.com/shure-pubs-staging/graphics/f_ad42bed1-f837-4e2d-bb27-726c12c1bcd8-ENG.png",
+        "https://s3.us-east-2.amazonaws.com/shure-pubs-staging/graphics/f_7e014e2c-0e64-4316-9359-a69f034adcd0-ENG.png",
+        "https://s3.us-east-2.amazonaws.com/shure-pubs-staging/graphics/f_3cfab716-a05c-421a-a897-22f0dbb3418d-ENG.png",
         "https://cdn.pixabay.com/photo/2017/05/01/05/18/pastry-2274750_1280.jpg"
       ],
     ),
@@ -367,9 +367,10 @@ final List<EquipmentItem> _equipmentItems = [
         "Neodymium magnet produces high output"
       ],
       imageUrl: [
-        "",
-        "",
-        "",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQgnCUifNILRiQPu_Xbmxu7o-wjVZ9UGr-8-7NbfvyPgIdjOhYH&usqp=CAU",
+        "https://images-na.ssl-images-amazon.com/images/I/71IgqE44dtL._SL1500_.jpg",
+        "https://images-na.ssl-images-amazon.com/images/I/413E0f5Jt3L._AC_.jpg",
+        "https://s3.us-east-2.amazonaws.com/shure-pubs-staging/graphics/f_3cfab716-a05c-421a-a897-22f0dbb3418d-ENG.png",
         "",
         "",
         ""
