@@ -33,16 +33,19 @@ class CurrentInventoryScreen extends StatelessWidget {
         context: context,
         builder: (context) => new AlertDialog(
           title: new Text('Are you sure?'),
-          content: new Text('Do you want to exit an App'),
+          content: new Text('Do you want to exit Current Page'),
           actions: <Widget>[
-            new GestureDetector(
-              onTap: () => Navigator.of(context).pop(false),
+            FlatButton(
               child: Text("NO"),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
             ),
-            SizedBox(height: 16),
-            new GestureDetector(
-              onTap: () => Navigator.of(context).pop(true),
+            FlatButton(
               child: Text("YES"),
+              onPressed: () {
+                Navigator.of(context).popAndPushNamed('/');
+              },
             ),
           ],
         ),
