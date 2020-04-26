@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../Providers/inventoryProvider.dart';
 import '../../Providers/equipment.dart';
 import './editInventory.dart';
+import './itemLogDisplay.dart';
 // import './editEquipmentInfo.dart';
 
 class InventoryDetail extends StatelessWidget {
@@ -41,6 +42,7 @@ class InventoryDetail extends StatelessWidget {
         ],
       ),
       body: Container(
+        width: double.infinity,
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -125,6 +127,46 @@ class InventoryDetail extends StatelessWidget {
           ),
         ),
       ),
+      
+      persistentFooterButtons: <Widget>[
+        FlatButton.icon(
+          onPressed: () {
+            showModalBottomSheet(
+              context: context, 
+              builder: (context){
+                return Container(
+                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
+                  child: ItemLogDisplay(itemId),
+                );
+              }
+            );
+          },
+          icon: Icon(Icons.view_list),
+          label: Text("View Item Log"),
+          color: Colors.purple,
+        ),
+        // FlatButton.icon(
+        //   onPressed: () {
+        //     showBottomSheet(
+        //       context: context,
+        //       builder: (context) => new BottomSheet(onClosing: null, builder: null)
+        //     );
+        //   },
+        //   icon: Icon(Icons.view_list),
+        //   label: Text("View Item Log")
+        // )
+      ],
+      // bottomNavigationBar: BottomNavigationBar(
+      //   items: [
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.view_list),
+      //       title: Text("View Item Log")
+      //     )
+      //   ],
+      //   onTap: (_) {
+      //     showBottomSheet(context: context, builder: null);
+      //   } ,
+      // ),
     );
   }
 }

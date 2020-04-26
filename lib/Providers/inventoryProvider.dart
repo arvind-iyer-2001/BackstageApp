@@ -4,6 +4,7 @@ class ItemLog {
   final DateTime borrowTime;
   final DateTime returnTime;
   final String usageID;
+  final String feedback;
   // final User borrowUser;
   // final User returnUser;
   // final Event event;
@@ -11,7 +12,8 @@ class ItemLog {
   ItemLog({
     this.borrowTime,
     this.returnTime,
-    this.usageID
+    this.usageID,
+    this.feedback
     // this.borrowUser,
     // this.returnUser,
     // this.event,

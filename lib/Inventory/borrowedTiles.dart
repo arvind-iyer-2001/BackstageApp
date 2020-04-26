@@ -34,7 +34,7 @@ class BorrowedTiles extends StatelessWidget {
           ),
           direction: DismissDirection.endToStart,
           onDismissed: (direction) {
-            // Provider.of<Cart>(context, listen: false).removeItem(cartItem[index].id);
+            Provider.of<BorrowReturn>(context, listen: false).returnItem(borrowedItem);
           },
             key: ValueKey(borrowedItem.usageId),
             child: ListTile(
