@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "67822310161",
+    "firebase_url": "https://backstage-utility-app-ea137.firebaseio.com",
+    "project_id": "backstage-utility-app-ea137",
+    "storage_bucket": "backstage-utility-app-ea137.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:67822310161:android:52106a79880773ab9a32b0",
+        "android_client_info": {
+          "package_name": "com.backstage.BackstageApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "67822310161-ka3ibcqn70226bju088d6fi9budq888k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxl4eC_5D-535NGN8PbgQ8NiNsrcX8wiI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "67822310161-ka3ibcqn70226bju088d6fi9budq888k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
