@@ -37,7 +37,7 @@ class Cart with ChangeNotifier {
     if(_categoryItems.isEmpty){
       return [];
     }
-    if(category == Categories[0]){
+    if(category == Categories.firstWhere((e) => e.id == 'mc00')){
       return _items.values.toList();
     }
     return _categoryItems;

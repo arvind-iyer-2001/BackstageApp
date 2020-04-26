@@ -39,43 +39,32 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
             ),
             RaisedButton(
               child: Text("Borrow Items"),
-              onPressed: () {
-                // async {
-                // await showDialog(
-                //   context: context,
-                //   builder: (context) => new AlertDialog(
-                //     title: new Text('Are you sure?'),
-                //     content: new Text('Do you want to borrow these Items?'),
+              onPressed: () async {
+                await showDialog(
+                  context: context,
+                  builder: (context) => new AlertDialog(
+                    title: new Text('Are you sure?'),
+                    content: new Text('Do you want to borrow these Items?'),
 
-                //     actions: <Widget>[
-                //       new GestureDetector(
-                //         onTap: () => Navigator.of(context).pop(),
-                //         child: Text("NO"),
-                //       ),
-                //       SizedBox(height: 16),
-                //       new GestureDetector(
-                //         onTap: () {
-                //           Provider.of<BorrowReturn>(context, listen: false).borrowItem(
-                //             cart.inventoryItem
-                //           );
-                //           cart.clear();
-                //           Navigator.of(context).pushReplacementNamed(BorrowedItemsScreen.routeName);
-                //         } ,
-                //         child: Text("YES"),
-                //       ),
-                //     ],
-                //   ),
-                  
-                  
-                // // ).then(
-                  
-                // //   // Scaffold.of(context).openEndDrawer((_) => )
-                // );
-                Provider.of<BorrowReturn>(context, listen: false).borrowItem(
-                  cart.inventoryItem
+                    actions: <Widget>[
+                      new GestureDetector(
+                        onTap: () => Navigator.of(context).pop(),
+                        child: Text("NO"),
+                      ),
+                      SizedBox(height: 16),
+                      new GestureDetector(
+                        onTap: () {
+                          Provider.of<BorrowReturn>(context, listen: false).borrowItem(
+                            cart.inventoryItem
+                          );
+                          cart.clear();
+                          Navigator.of(context).pushReplacementNamed(BorrowedItemsScreen.routeName);
+                        } ,
+                        child: Text("YES"),
+                      ),
+                    ],
+                  ),
                 );
-                cart.clear();
-                Navigator.of(context).pushReplacementNamed(BorrowedItemsScreen.routeName);
               },
             ),
 

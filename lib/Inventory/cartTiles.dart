@@ -15,12 +15,12 @@ class CartTiles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cartItem = cart.fetchByCategory(currentCategory);
+    final cartItem = cart.inventoryItem; // .fetchByCategory(currentCategory);
     return Container(
       child: ListView.builder(
         itemCount: cartItem.length,
         itemBuilder: (ctx ,index) => Dismissible(
-          key: ValueKey(cartItem[index].id),
+          key: ValueKey(cartItem[index].itemId),
           background: Container(
             color: Theme.of(context).errorColor,
             child: Icon(
@@ -37,7 +37,7 @@ class CartTiles extends StatelessWidget {
           ),
           direction: DismissDirection.endToStart,
           onDismissed: (direction) {
-            Provider.of<Cart>(context, listen: false).removeItem(cartItem[index].id);
+            Provider.of<Cart>(context, listen: false).removeItem(cartItem[index].itemId);
           },
           child: Card(
             margin: EdgeInsets.symmetric(
@@ -47,7 +47,7 @@ class CartTiles extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(8),
               child: ListTile(
-                title: Text(cartItem[index].title),
+                title: Text('${Provider.of<EquipmentFunctions>(context).findByItemId(cartItem[index].equipmentId).title} ${cartItem[index].titleSuffix}'),
                 trailing: Text(cartItem[index].barcode),
               ),
             ),

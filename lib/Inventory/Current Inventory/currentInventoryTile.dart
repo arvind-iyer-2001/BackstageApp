@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../Inventory/inventoryDetails.dart';
+import '../Current Inventory/inventoryDetails.dart';
 
-import '../Providers/inventoryProvider.dart';
-import '../Providers/equipment.dart';
-import '../Providers/cartProvider.dart';
+import '../../Providers/inventoryProvider.dart';
+import '../../Providers/equipment.dart';
+import '../../Providers/cartProvider.dart';
 
 
 class CurrentInventoryTiles extends StatelessWidget {

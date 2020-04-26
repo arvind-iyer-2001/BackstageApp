@@ -1,20 +1,22 @@
+//import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import './currentInventoryTile.dart';
-import '../Providers/cartProvider.dart';
-import '../Supplementary%20Widgets/badge.dart';
-import './checkOutCartScreen.dart';
+import '../../Providers/cartProvider.dart';
+import '../../Supplementary%20Widgets/badge.dart';
+import '../checkOutCartScreen.dart';
+import '../appDrawer.dart';
+import './editInventory.dart';
 
 enum SortByCategory {
   All,
-  XLR,
-  MIC,
-  DI,
-  TS55,
-  TS3535,
-  MICSTAND,
-  SPEAKON
+  Borrowed,
+  Free,
+  InComission,
+  OutOfComission,
+  Missing
 }
 
 class CurrentInventoryScreen extends StatelessWidget {
@@ -46,9 +48,24 @@ class CurrentInventoryScreen extends StatelessWidget {
         ),
       ) ?? false;
     }
+    
     return WillPopScope(
       onWillPop: _onBackPressed,
       child: Scaffold(
+        endDrawer: RightAppDrawer(),
+        
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).pushNamed(EditInventory.routeName);
+          },
+          child: Text(
+            'Add\nItem',
+            softWrap: true,
+            textAlign: TextAlign.center,
+          ),
+        ),
+
         appBar: AppBar(
           title: const Text('Current Inventory'),
           actions: <Widget>[
@@ -109,32 +126,24 @@ class CurrentInventoryScreen extends StatelessWidget {
                   value: SortByCategory.All
                 ),
                 PopupMenuItem(
-                  child: Text('Sort by XLRs'),
-                  value: SortByCategory.XLR
+                  child: Text('Show Borrowed'),
+                  value: SortByCategory.Borrowed
                 ),
                 PopupMenuItem(
-                  child: Text('Sort by MICs'),
-                  value: SortByCategory.XLR
+                  child: Text('Show Available'),
+                  value: SortByCategory.Free
                 ),
                 PopupMenuItem(
-                  child: Text('Sort by DI Boxes'),
-                  value: SortByCategory.DI
+                  child: Text('Show Working'),
+                  value: SortByCategory.InComission
                 ),
                 PopupMenuItem(
-                  child: Text('Sort by TS 5-5 Cables'),
-                  value: SortByCategory.TS55
+                  child: Text('Show Out of Comission'),
+                  value: SortByCategory.OutOfComission
                 ),
                 PopupMenuItem(
-                  child: Text('Sort by TS 3.5-3.5mm Cables'),
-                  value: SortByCategory.TS3535
-                ),
-                PopupMenuItem(
-                  child: Text('Sort by Mic Stands'),
-                  value: SortByCategory.MICSTAND
-                ),
-                PopupMenuItem(
-                  child: Text('Sort by Speak-On Cables'),
-                  value: SortByCategory.SPEAKON
+                  child: Text('Show Missing'),
+                  value: SortByCategory.OutOfComission
                 ),
               ]
             )

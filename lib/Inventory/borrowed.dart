@@ -1,8 +1,9 @@
-import 'package:backstage/Inventory/borrowedTiles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../Providers/borrow&return.dart';
+import './borrowedTiles.dart';
+import './appDrawer.dart';
 
 class BorrowedItemsScreen extends StatelessWidget {
   static const routeName = 'Borrowed Items Screen';
@@ -14,7 +15,7 @@ class BorrowedItemsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Your Orders'),
       ),
-      drawer: Drawer(),
+      endDrawer: RightAppDrawer(),
       body: ListView.builder(
         itemCount: borrowReturn.borrowedItems.length,
         itemBuilder: (ctx, index) => BorrowedTiles(borrowReturn.borrowedItems[index]),

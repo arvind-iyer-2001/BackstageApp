@@ -98,7 +98,36 @@ class InventoryFunctions with ChangeNotifier{
     return inventoryItemsList.firstWhere((item) => item.itemId == itemId);
   }
   
-  void addInventoryItems() {
-    
+  void addInventoryItems(InventoryItem inventoryItem) {
+    final newInventoryItem = InventoryItem(
+      barcode: inventoryItem.barcode,
+      equipmentId: inventoryItem.equipmentId,
+      itemId: DateTime.now().toString(),
+      titleSuffix: inventoryItem.titleSuffix,
+      workingCondition: true,
+      borrowed: false,
+      log: [], 
+    );
+    inventoryItemsList.add(newInventoryItem);
+    notifyListeners();
+  }
+
+  void updateInventoryItem(String itemId, InventoryItem editedInventoryItem) {
+    var index = inventoryItemsList.indexWhere((element) => element.itemId == itemId);
+    inventoryItemsList[index] = InventoryItem(
+      barcode: editedInventoryItem.barcode,
+      equipmentId: editedInventoryItem.equipmentId,
+      itemId: itemId,
+      titleSuffix: editedInventoryItem.titleSuffix,
+      workingCondition: editedInventoryItem.workingCondition,
+      borrowed: inventoryItemsList[index].borrowed,
+      log: inventoryItemsList[index].log, 
+    );
+    notifyListeners();
+  }
+
+  void deleteProduct(String id) {
+    inventoryItemsList.removeWhere((element) => element.equipmentId == id);
+    notifyListeners();
   }
 }

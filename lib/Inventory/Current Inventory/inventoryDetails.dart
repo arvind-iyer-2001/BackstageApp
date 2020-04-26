@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../Providers/inventoryProvider.dart';
-import '../Providers/equipment.dart';
+import '../../Providers/inventoryProvider.dart';
+import '../../Providers/equipment.dart';
+import './editInventory.dart';
+// import './editEquipmentInfo.dart';
 
 class InventoryDetail extends StatelessWidget {
   static const routeName = 'Inventory Details';
@@ -21,7 +23,9 @@ class InventoryDetail extends StatelessWidget {
         title: Text(equipment.title),
         actions: <Widget>[
           FlatButton.icon(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed(EditInventory.routeName, arguments: itemId);
+            },
             icon: Icon(
               Icons.edit,
               color: Colors.white,

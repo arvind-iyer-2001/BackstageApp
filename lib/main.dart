@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import './Inventory/currentInventoryScreen.dart'; // 1
-import './Inventory/inventoryDetails.dart'; // 2
+import './Inventory/Current Inventory/currentInventoryScreen.dart'; // 1
+import './Inventory/Current Inventory/inventoryDetails.dart'; // 2
 import './Inventory/checkOutCartScreen.dart'; // 3
 import './Inventory/borrowed.dart'; // 4
+import './Inventory/inventoryHomePage.dart'; // 5
+import './Inventory/Current Inventory/editInventory.dart'; // 6
+import './Inventory/Current Inventory/editEquipmentInfo.dart'; // 7
 
 import './Providers/equipment.dart';
 import './Providers/inventoryProvider.dart';
 import './Providers/cartProvider.dart';
 import './Providers/borrow&return.dart';
-
 
 void main() => runApp(MyApp());
 
@@ -40,28 +42,16 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.amber,
           errorColor: Colors.red,
         ),
-        home: CurrentInventoryScreen(),
+        home: InventoryHomeScreen(),
         routes: {
           CurrentInventoryScreen.routeName: (ctx) => CurrentInventoryScreen(), 
           InventoryDetail.routeName: (ctx) => InventoryDetail(),
           CheckOutScreen.routeName: (ctx) => CheckOutScreen(),
           BorrowedItemsScreen.routeName: (ctx) => BorrowedItemsScreen(),
+          EditInventory.routeName: (ctx) => EditInventory(),
+          EditEquipmentScreen.routeName: (ctx) => EditEquipmentScreen(),
           
         },
-      ),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('MyShop'),
-      ),
-      body: Center(
-        child: Text('Let\'s build a shop!'),
       ),
     );
   }

@@ -275,9 +275,9 @@ const SubCategories = const [
 
 class EquipmentItem with ChangeNotifier {
   @required final String title;
-  @required final List<String> categoryId;
-  @required final List<String> imageUrl;
-  @required final List<String> description;
+  @required List<String> categoryId;
+  @required List<String> imageUrl;
+  @required List<String> description;
   @required final String equipmentId;
 
   EquipmentItem({
@@ -336,15 +336,17 @@ final List<EquipmentItem> _equipmentItems = [
         "The SM57 is a popular choice of musicians due to its sturdy construction and ability to work well with instruments that produce high sound pressure levels, such as percussion instruments and electric guitars. ",
         "SM57s reinforce the sound from guitar amplifiers.",
         "Features a balanced output, which helps to minimize electrical hum and noise pickup",
-        "",
+        // "",
       ],
       imageUrl: [
-        "",
-        "",
-        "",
-        "",
-        "",
-        ""
+        "https://d2dfnis7z3ac76.cloudfront.net/shure_product_db/product_main_images/files/218/0f8/9b-/header_transparent/11cc244554e2d3880afecca5d6f63cc3.png",
+        "https://d2dfnis7z3ac76.cloudfront.net/shure_product_db/product_images/files/f83/6c8/3c-/header_transparent/434a98f409c257b6eca61ef73795512f.png",
+        "https://res.cloudinary.com/powerreviews/image/upload/c_fill,d_portal-no-product-image_ttlfpi.svg,f_auto,g_auto,h_400,q_auto,w_auto,z_0.5/d_portal-no-product-image_ttlfpi.svg/prod/socialCollection/i1nkzrrzbwudoctsfwhy",
+        "https://s3.us-east-2.amazonaws.com/shure-pubs-staging/graphics/f_503158fd-2aa5-4035-9fde-f687d47d6c04-ENG.png",
+        "https://s3.us-east-2.amazonaws.com/shure-pubs-staging/graphics/f_9cdd9a22-a4a1-4241-a428-f4421ae9973a-ENG.png",
+        "https://s3.us-east-2.amazonaws.com/shure-pubs-staging/graphics/f_97d5aa0e-73fa-4584-b577-bc35f5d50fa7-ENG.png",
+        "https://s3.us-east-2.amazonaws.com/shure-pubs-staging/graphics/f_d875dc79-861d-4af3-94b2-433b3b8bec5b-ENG.png",
+        "https://s3.us-east-2.amazonaws.com/shure-pubs-staging/graphics/f_7acd2a4b-5d58-490c-811f-59403d4f2125-ENG.png"
       ],
     ),
     EquipmentItem(
@@ -445,7 +447,20 @@ class EquipmentFunctions with ChangeNotifier {
     return _equipmentItems.firstWhere((item) => item.equipmentId == equipmentId);
   }
   
-  void addEquipmentItems() {
-    
+  void addEquipmentItems(EquipmentItem newItem) {
+    final newEquipmentItem = EquipmentItem(
+      title: newItem.title,
+      description: newItem.description,
+      imageUrl: newItem.imageUrl,
+      categoryId: newItem.categoryId,
+      equipmentId: DateTime.now().toString(),
+    );
+    _equipmentItems.add(newEquipmentItem);
+    // _items.insert(0, newProduct); // at the start of the list
+    notifyListeners();
+  }
+
+  void updateEquipmentItem(String equipmentId, EquipmentItem editedItem) {
+
   }
 }
