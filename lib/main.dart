@@ -1,3 +1,4 @@
+import 'package:backstage/Inventory/scannedPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,6 +9,7 @@ import './Inventory/borrowed.dart'; // 4
 import './Inventory/inventoryHomePage.dart'; // 5
 import './Inventory/Current Inventory/editInventory.dart'; // 6
 import './Inventory/Current Inventory/editEquipmentInfo.dart'; // 7
+import './Inventory/barcodeScan.dart';
 
 import './Providers/equipment.dart';
 import './Providers/inventoryProvider.dart';
@@ -44,13 +46,20 @@ class MyApp extends StatelessWidget {
         ),
         home: InventoryHomeScreen(),
         routes: {
+          
+          InventoryHomeScreen.routeName: (ctx)  =>InventoryHomeScreen(),
+
+          // Current Inventory
           CurrentInventoryScreen.routeName: (ctx) => CurrentInventoryScreen(), 
           InventoryDetail.routeName: (ctx) => InventoryDetail(),
           CheckOutScreen.routeName: (ctx) => CheckOutScreen(),
           BorrowedItemsScreen.routeName: (ctx) => BorrowedItemsScreen(),
           EditInventory.routeName: (ctx) => EditInventory(),
           EditEquipmentScreen.routeName: (ctx) => EditEquipmentScreen(),
-          
+
+          // Barcode Scanner
+          ScannedPage.routeName: (ctx) => ScannedPage(),
+          BarcodeScanner.routeName: (ctx) => BarcodeScanner()
         },
       ),
     );

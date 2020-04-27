@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import './borrowed.dart';
 import '../Inventory/Current Inventory/currentInventoryScreen.dart';
+import './inventoryHomePage.dart';
 
 class RightAppDrawer extends StatelessWidget {
   @override
@@ -19,7 +20,7 @@ class RightAppDrawer extends StatelessWidget {
             leading: Icon(Icons.shop),
             title: Text('Inventory Main Page'),
             onTap: () {
-              Navigator.of(context).pushReplacementNamed('/');
+              Navigator.of(context).pushReplacementNamed(InventoryHomeScreen.routeName);
             },
           ),
           Divider(),

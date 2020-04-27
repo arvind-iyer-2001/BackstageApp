@@ -1,3 +1,4 @@
+import 'package:backstage/Inventory/barcodeScan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -41,20 +42,8 @@ class InventoryHomeScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text("Inventory Home Page"),
           actions: <Widget>[
-            FlatButton.icon(
-              icon: Icon(
-                Icons.scanner,
-                color: Colors.white,
-              ),
-              label: Text(
-                'Scan Barcode',
-                style: TextStyle(
-                  color: Colors.white
-                ),
-              ),
-              onPressed: () {
-
-              },
+            Container(
+              child: BarcodeScanner(),
             )
           ],
         ),

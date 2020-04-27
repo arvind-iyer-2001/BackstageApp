@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// import 'package:provider/provider.dart';
 
 import './equipment.dart';
 import './inventoryProvider.dart';
@@ -24,7 +25,10 @@ class Cart with ChangeNotifier {
     return {..._items};
   }
 
+  BuildContext context;
+
   List<InventoryItem> get inventoryItem{
+    // Provider.of<InventoryFunctions>(context).items;
     return inventoryItemsList.where((item) => items.containsKey(item.itemId)).toList();
   }
   
