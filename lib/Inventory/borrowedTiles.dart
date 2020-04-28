@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../Providers/equipment.dart';
-import '../Providers/borrow&return.dart';
+import '../Providers/inventoryProvider.dart';
 
 class BorrowedTiles extends StatelessWidget {
   final BorrowedItem borrowedItem;
@@ -34,7 +34,7 @@ class BorrowedTiles extends StatelessWidget {
           ),
           direction: DismissDirection.endToStart,
           onDismissed: (direction) {
-            Provider.of<BorrowReturn>(context, listen: false).returnItem(borrowedItem);
+            Provider.of<InventoryFunctions>(context, listen: false).returnItem(borrowedItem);
           },
             key: ValueKey(borrowedItem.usageId),
             child: ListTile(

@@ -14,7 +14,7 @@ import './Inventory/barcodeScan.dart';
 import './Providers/equipment.dart';
 import './Providers/inventoryProvider.dart';
 import './Providers/cartProvider.dart';
-import './Providers/borrow&return.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -31,9 +31,6 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(
           value: Cart(),
-        ),
-        ChangeNotifierProvider.value(
-          value: BorrowReturn(),
         ),
       ],
       child: MaterialApp(
@@ -54,7 +51,8 @@ class MyApp extends StatelessWidget {
           InventoryDetail.routeName: (ctx) => InventoryDetail(),
           CheckOutScreen.routeName: (ctx) => CheckOutScreen(),
           BorrowedItemsScreen.routeName: (ctx) => BorrowedItemsScreen(),
-          EditInventory.routeName: (ctx) => EditInventory(),
+
+          EditInventory.routeName: (ctx) => EditInventory(''),
           EditEquipmentScreen.routeName: (ctx) => EditEquipmentScreen(),
 
           // Barcode Scanner

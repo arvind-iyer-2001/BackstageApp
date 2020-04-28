@@ -1,3 +1,5 @@
+import 'package:backstage/Inventory/barcodeScan.dart';
+import 'package:backstage/Providers/cartProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,30 +17,14 @@ class InventoryDetail extends StatelessWidget {
     final itemId= ModalRoute.of(context).settings.arguments as String;
     final inventoryItem = Provider.of<InventoryFunctions>(context,listen: false).findByItemId(itemId);
     final equipment = Provider.of<EquipmentFunctions>(context).findByItemId(inventoryItem.equipmentId);
-    var pageController = PageController(
+    final pageController = PageController(
       initialPage: 0,
     );
-
     return Scaffold(
       appBar: AppBar(
         title: Text(equipment.title),
         actions: <Widget>[
-          FlatButton.icon(
-            onPressed: () {
-              Navigator.of(context).pushNamed(EditInventory.routeName, arguments: itemId);
-            },
-            icon: Icon(
-              Icons.edit,
-              color: Colors.white,
-            ),
-
-            label: Text(
-              'Edit',
-              style: TextStyle(
-                color: Colors.white
-              ),
-            )
-          )
+          BarcodeScanner()
         ],
       ),
       body: Container(
@@ -73,11 +59,15 @@ class InventoryDetail extends StatelessWidget {
               SizedBox(
                 height: 10
               ),
-              Text(
-                '${inventoryItem.barcode}',
-                style: TextStyle(
-                  // color: Colors.grey,
-                  fontSize: 20,
+              Container(
+                child: Text(
+                  '${inventoryItem.barcode}',
+                  style: TextStyle(
+                    color: inventoryItem.borrowed
+                    ? Colors.red
+                    : Colors.green,
+                    fontSize: 20,
+                  ),
                 ),
               ),
               SizedBox(
@@ -127,46 +117,101 @@ class InventoryDetail extends StatelessWidget {
           ),
         ),
       ),
-      
-      persistentFooterButtons: <Widget>[
-        FlatButton.icon(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Consumer<Cart>(
+        builder: (ctx, cart, child) =>FloatingActionButton.extended(
+          label: Text(
+            "Add to Cart",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 40,
+              fontWeight: FontWeight.w200
+            ),
+          ),
           onPressed: () {
-            showModalBottomSheet(
-              context: context, 
-              builder: (context){
-                return Container(
-                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
-                  child: ItemLogDisplay(itemId),
-                );
-              }
+            cart.addInventoryItemtoCart(
+              equipment.equipmentId,
+              inventoryItem.barcode,
+              inventoryItem.itemId,
+              Categories.firstWhere((category) => category.id == equipment.categoryId[0]),
+            );
+            // Removes the current Snackbar
+            Scaffold.of(context).removeCurrentSnackBar();
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                content: Text('${equipment.title} has been added to the Check Out'),
+              )
             );
           },
-          icon: Icon(Icons.view_list),
-          label: Text("View Item Log"),
-          color: Colors.purple,
+        )
+      ),
+
+      persistentFooterButtons: <Widget>[
+        
+        Container(
+          height: 40,
+          width: MediaQuery.of(context).size.width ,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Container(
+                height: 50,
+                width: MediaQuery.of(context).size.width *0.4,
+                child: FlatButton.icon(
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context, 
+                      builder: (context){
+                        return Container(
+                          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                          child: ItemLogDisplay(itemId),
+                        );
+                      }
+                    );
+                  },
+                  icon: Icon(Icons.view_list),
+                  label: Text("View Item Log"),
+                  color: Colors.purple,
+                ),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width *0.4,
+                height: 50,
+                child: FlatButton.icon(
+                  color: Colors.purple,
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(
+                      EditInventory.routeName,
+                      arguments: InventoryItem(
+                        barcode: inventoryItem.barcode,
+                        equipmentId: inventoryItem.equipmentId,
+                        itemId: inventoryItem.itemId,
+                        titleSuffix: inventoryItem.titleSuffix,
+                        workingCondition: inventoryItem.workingCondition,
+                        borrowed: inventoryItem.borrowed,
+                        log: inventoryItem.log,
+                      ),
+                        
+                    );
+                  },
+                  icon: Icon(
+                    Icons.edit,
+                    color: Colors.white,
+                  ),
+
+                  label: Text(
+                    'Edit',
+                    style: TextStyle(
+                      color: Colors.white
+                    ),
+                  )
+                ),
+              ),
+            ],
+          ),
         ),
-        // FlatButton.icon(
-        //   onPressed: () {
-        //     showBottomSheet(
-        //       context: context,
-        //       builder: (context) => new BottomSheet(onClosing: null, builder: null)
-        //     );
-        //   },
-        //   icon: Icon(Icons.view_list),
-        //   label: Text("View Item Log")
-        // )
+        SizedBox(height: 10,)
       ],
-      // bottomNavigationBar: BottomNavigationBar(
-      //   items: [
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.view_list),
-      //       title: Text("View Item Log")
-      //     )
-      //   ],
-      //   onTap: (_) {
-      //     showBottomSheet(context: context, builder: null);
-      //   } ,
-      // ),
     );
   }
 }

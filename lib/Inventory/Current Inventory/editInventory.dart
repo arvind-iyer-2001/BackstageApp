@@ -1,12 +1,15 @@
 import 'package:backstage/Providers/equipment.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../Providers/inventoryProvider.dart';
 
 
 class EditInventory extends StatefulWidget {
   static const routeName = 'Edit Inventory Screen';
+
+  final String barcode;
+  EditInventory(this.barcode);
+
   @override
   _EditInventoryState createState() => _EditInventoryState();
 }
@@ -35,7 +38,7 @@ class _EditInventoryState extends State<EditInventory> {
     workingCondition: true
   );
   var _initValues = {
-    'barcode': '',
+    'barcode': null,
     'titleSuffix': '',
     'equipmentId': null,
     'workingCondition': true
@@ -44,24 +47,26 @@ class _EditInventoryState extends State<EditInventory> {
 
   @override
   void initState() {
-    _equipmentIdFocusNode.addListener(_updateImageUrl);
+    _equipmentIdFocusNode.addListener(_updateEquipmentId);
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      final inventoryId = ModalRoute.of(context).settings.arguments as String;
-      if (inventoryId != null) {
-        _editedInventoryItem = Provider.of<InventoryFunctions>(context, listen: false).findByItemId(inventoryId);
-        _initValues = {
-          'barcode': _editedInventoryItem.barcode,
-          'titleSuffix': _editedInventoryItem.titleSuffix,
-          'equipmentId': _editedInventoryItem.equipmentId,
-          'workingCondition': _editedInventoryItem.workingCondition
-        };
-        _equipmentIdController.text = _editedInventoryItem.equipmentId;
+      final _inventoryItem = ModalRoute.of(context).settings.arguments as InventoryItem;
+      if( _inventoryItem.itemId!= null || _inventoryItem.barcode != null){
+        _editedInventoryItem =_inventoryItem;
       }
+      
+      _initValues = {
+        'barcode': _editedInventoryItem.barcode,
+        'titleSuffix': _editedInventoryItem.titleSuffix,
+        'equipmentId': _editedInventoryItem.equipmentId,
+        'workingCondition': _editedInventoryItem.workingCondition,
+      };     
+      _equipmentIdController.text = _editedInventoryItem.equipmentId;
+      
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -69,7 +74,7 @@ class _EditInventoryState extends State<EditInventory> {
 
   @override
   void dispose() {
-    _equipmentIdFocusNode.removeListener(_updateImageUrl);
+    _equipmentIdFocusNode.removeListener(_updateEquipmentId);
     _barcodeFocusNode.dispose();
     _titleSuffixFocusNode.dispose();
     _equipmentIdFocusNode.dispose();
@@ -78,7 +83,7 @@ class _EditInventoryState extends State<EditInventory> {
     super.dispose();
   }
 
-  void _updateImageUrl() {
+  void _updateEquipmentId() {
     if (!_equipmentIdFocusNode.hasFocus) {
       if (!_equipmentIdController.text.startsWith('eId')) {
         return;
@@ -105,118 +110,96 @@ class _EditInventoryState extends State<EditInventory> {
   @override
   Widget build(BuildContext context) {
     final equipment = Provider.of<EquipmentFunctions>(context).equipmentItems;
-    Future<bool> _onBackPressed() {
-      return showDialog(
-        context: context,
-        builder: (context) => new AlertDialog(
-          title: new Text('Are you sure?'),
-          content: new Text('Do you want to exit an App'),
-          actions: <Widget>[
-            new GestureDetector(
-              onTap: () => Navigator.of(context).pop(false),
-              child: Text("NO"),
-            ),
-            SizedBox(height: 16),
-            new GestureDetector(
-              onTap: () => Navigator.of(context).pop(true),
-              child: Text("YES"),
-            ),
-          ],
-        ),
-      ) ?? false;
-    }
-    
-    return WillPopScope(
-      onWillPop: _onBackPressed,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Edit Inventory Item Details'),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.save),
-              onPressed: _saveForm,
-            ),
-          ],
-        ),
 
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _form,
-            child: ListView(
-              children: <Widget>[
-                TextFormField(
-                  initialValue: _initValues['titleSuffix'],
-                  decoration: InputDecoration(labelText: 'Add Suffix to the Title'),
-                  textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (_) {
-                    FocusScope.of(context).requestFocus(_barcodeFocusNode);
-                  },
-                  validator: (value) {
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _editedInventoryItem = InventoryItem(
-                      barcode: _editedInventoryItem.barcode,
-                      equipmentId: _editedInventoryItem.equipmentId,
-                      itemId: _editedInventoryItem.itemId,
-                      borrowed: _editedInventoryItem.borrowed,
-                      titleSuffix: value,
-                      workingCondition: _editedInventoryItem.workingCondition
-                    );
-                  },
-                ),
-                TextFormField(
-                  initialValue: _initValues['barcode'],
-                  decoration: InputDecoration(labelText: 'BARCODE'),
-                  textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (_) {
-                    FocusScope.of(context).requestFocus(_equipmentIdFocusNode);
-                  },
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Please provide a value.';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _editedInventoryItem = InventoryItem(
-                      titleSuffix: _editedInventoryItem.titleSuffix,
-                      barcode: value,
-                      equipmentId: _editedInventoryItem.equipmentId,
-
-                      itemId: _editedInventoryItem.itemId,
-                      borrowed: _editedInventoryItem.borrowed,
-                      workingCondition: _editedInventoryItem.workingCondition
-                    );
-                  },
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    Container(
-                      width: 300,
-                      height: 100,
-                      margin: EdgeInsets.only(
-                        top: 8,
-                        right: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 1,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      child: _equipmentIdController.text.isEmpty
-                          ? Text('Enter an EquipmentId',softWrap: true,)
-                          : FittedBox(
-                              child: Text(
-                                equipment.firstWhere((element) => _equipmentIdController.text == element.equipmentId).title,
-                                softWrap: true,
-                              ),
-                            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: widget.barcode == null
+        ? Text('Edit Inventory Item Details')
+        : Text('Add Inventory Item Details'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.save),
+            onPressed: _saveForm,
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _form,
+          child: ListView(
+            children: <Widget>[
+              TextFormField(
+                initialValue: _initValues['titleSuffix'],
+                decoration: InputDecoration(labelText: 'Add Suffix to the Title'),
+                textInputAction: TextInputAction.next,
+                onFieldSubmitted: (_) {
+                  FocusScope.of(context).requestFocus(_barcodeFocusNode);
+                },
+                validator: (value) {
+                  return null;
+                },
+                onSaved: (value) {
+                  _editedInventoryItem = InventoryItem(
+                    barcode: _editedInventoryItem.barcode,
+                    equipmentId: _editedInventoryItem.equipmentId,
+                    itemId: _editedInventoryItem.itemId,
+                    borrowed: _editedInventoryItem.borrowed,
+                    titleSuffix: value,
+                    workingCondition: _editedInventoryItem.workingCondition
+                  );
+                },
+              ),
+              TextFormField(
+                initialValue: _initValues['barcode'] ?? widget.barcode ?? '',
+                decoration: InputDecoration(labelText: 'BARCODE'),
+                textInputAction: TextInputAction.next,
+                onFieldSubmitted: (_) {
+                  FocusScope.of(context).requestFocus(_equipmentIdFocusNode);
+                },
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please provide a value.';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  _editedInventoryItem = InventoryItem(
+                    titleSuffix: _editedInventoryItem.titleSuffix,
+                    barcode: value,
+                    equipmentId: _editedInventoryItem.equipmentId,
+                    itemId: _editedInventoryItem.itemId,
+                    borrowed: _editedInventoryItem.borrowed,
+                    workingCondition: _editedInventoryItem.workingCondition
+                  );
+                },
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Container(
+                    width: 300,
+                    height: 100,
+                    margin: EdgeInsets.only(
+                      top: 8,
+                      right: 10,
                     ),
-                    Expanded(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 1,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    child: _equipmentIdController.text.isEmpty
+                    ? Text('Enter an EquipmentId',softWrap: true,)
+                    : FittedBox(
+                      child: Text(
+                        equipment.firstWhere((element) => _equipmentIdController.text == element.equipmentId).title,
+                        softWrap: true,
+                      ),
+                    ),
+                  ),
+                  Expanded(
                       child: TextFormField(
                         decoration: InputDecoration(labelText: 'Image URL'),
                         keyboardType: TextInputType.text,
@@ -251,14 +234,12 @@ class _EditInventoryState extends State<EditInventory> {
                         
                       ),
                     ),
-                  ]
-                ),
-              ]
-            )
+                ]
+              ),
+            ]
           )
         )
-      )
-      
+      )  
     );
   }
 }

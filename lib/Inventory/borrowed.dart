@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../Providers/borrow&return.dart';
 import './borrowedTiles.dart';
 import './appDrawer.dart';
+import '../Providers/inventoryProvider.dart';
 
 class BorrowedItemsScreen extends StatelessWidget {
   static const routeName = 'Borrowed Items Screen';
 
   @override
   Widget build(BuildContext context) {
-    final borrowReturn = Provider.of<BorrowReturn>(context);
+    final borrowReturn = Provider.of<InventoryFunctions>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Your Orders'),

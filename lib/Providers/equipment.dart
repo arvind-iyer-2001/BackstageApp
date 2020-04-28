@@ -379,10 +379,10 @@ final List<EquipmentItem> _equipmentItems = [
       ],
     ),
     EquipmentItem(
-      title: "",
+      title: "XLR 5",
       equipmentId: 'eId04',
       categoryId: [
-        "",
+        "mc1",
         "",
         "",
         "",
@@ -390,20 +390,20 @@ final List<EquipmentItem> _equipmentItems = [
         ""
       ],
       description: [
-        "",
-        "",
-        "",
-        "",
-        "",
-        ""
+        "Not Gret",
+        "Great",
+        "Not Great",
+        "Great",
+        "Greatish",
+        "Bleh"
       ],
       imageUrl: [
-        "",
-        "",
-        "",
-        "",
-        "",
-        ""
+        // "",
+        // "",
+        // "",
+        // "",
+        // "",
+        // ""
       ],
     ),
     EquipmentItem(

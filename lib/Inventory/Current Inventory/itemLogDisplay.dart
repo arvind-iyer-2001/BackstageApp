@@ -24,13 +24,15 @@ class ItemLogDisplay extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Container(
-                  child: Text('${DateFormat('dd/MM/yyyy hh:mm').format(itemLog[index].borrowTime)}'),
+                  child: Text(DateFormat('dd/MM/yyyy hh:mm').format(itemLog[index].borrowTime) ?? '                     '),
                 ),
                 // Container(
                 //   child: Text('${itemLog[index].usageID}'),
                 // ),
                 Container(
-                  child: Text('${DateFormat('dd/MM/yyyy hh:mm').format(itemLog[index].returnTime)}'),
+                  child: itemLog[index].returnTime.isAfter(itemLog[index].borrowTime)
+                  ? Text(DateFormat('dd/MM/yyyy hh:mm').format(itemLog[index].returnTime))
+                  : Text("Yet to be returned"),
                 ),
               ],
             ),

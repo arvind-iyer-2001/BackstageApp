@@ -1,10 +1,9 @@
 import 'dart:io';
 
-import 'package:backstage/Inventory/scannedPage.dart';
 import 'package:flutter/material.dart';
-
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
+import 'package:backstage/Inventory/scannedPage.dart';
 
 class BarcodeScanner extends StatefulWidget {
   static const routeName = 'Barcode Scanner';
@@ -35,23 +34,26 @@ class _BarcodeScannerState extends State<BarcodeScanner> {
     barcodeDetector.close();
   }
 
-  Future<void> goToNextPage() async {
-    await decode().then((_){
-      if(result != null)
-      {
-        Navigator.of(context).pushNamed(ScannedPage.routeName, arguments: result);
-      } else {
-        Scaffold.of(context).showSnackBar(
-          SnackBar(
-            content: Text('No Barcode Found'),
-          )
-        );
-      }
-    });
-  }
-  
   @override
   Widget build(BuildContext context) {
+    Future<void> goToNextPage() async {
+      await decode().then((_){
+        if(result == null)
+        {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text('No Barcode Found'),
+            )
+          );
+        } else {
+          Navigator.of(context).pushNamed(
+            ScannedPage.routeName,
+            arguments: result
+          );
+        }
+      });
+    }
+
     return FlatButton.icon(
       icon: Icon(
         Icons.scanner,
@@ -81,7 +83,7 @@ class _OCRState extends State<OCR> {
   bool isImageLoaded = false;
 
   Future<void> clickImage() async {
-    var tempStore = await ImagePicker.pickImage(source: ImageSource.gallery);
+    var tempStore = await ImagePicker.pickImage(source: ImageSource.camera);
 
     setState(() {
       pickedImage = tempStore;
@@ -92,7 +94,6 @@ class _OCRState extends State<OCR> {
 
   Future<void> pickImage() async {
     var tempStore = await ImagePicker.pickImage(source: ImageSource.gallery);
-
     setState(() {
       pickedImage = tempStore;
       isImageLoaded = true;
@@ -100,6 +101,9 @@ class _OCRState extends State<OCR> {
   }
 
   Future<void> readText() async {
+    
+    pickedImage = await ImagePicker.pickImage(source: ImageSource.camera);
+
     FirebaseVisionImage ourImage = FirebaseVisionImage.fromFile(pickedImage);
     TextRecognizer recogniseText = FirebaseVision.instance.textRecognizer();
     VisionText readText = await recogniseText.processImage(ourImage);
@@ -113,10 +117,43 @@ class _OCRState extends State<OCR> {
     }
 
   }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
+    Future<void> goToNextPage() async {
+      await readText().then((_){
+        if(result == null)
+        {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text('No Text Found'),
+            )
+          );
+        } else {
+          Navigator.of(context).pushNamed(
+            ScannedPage.routeName,
+            arguments: result
+          );
+        }
+      });
+    }
+
+    return Scaffold(
+      body: Center(
+        child: FlatButton.icon(
+          icon: Icon(
+            Icons.scanner,
+            color: Colors.white,
+          ),
+          label: Text(
+            result,
+            style: TextStyle(
+              color: Colors.white
+            ),
+          ),
+          onPressed: goToNextPage,
+        ),
+      ),
     );
   }
 }
