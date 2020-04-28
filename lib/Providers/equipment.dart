@@ -288,6 +288,7 @@ class EquipmentItem with ChangeNotifier {
     this.equipmentId
   });
 }
+
 final List<EquipmentItem> _equipmentItems = [
     EquipmentItem(
       title: "Shure SM58 Wired",
@@ -315,7 +316,6 @@ final List<EquipmentItem> _equipmentItems = [
         "https://s3.us-east-2.amazonaws.com/shure-pubs-staging/graphics/f_ad42bed1-f837-4e2d-bb27-726c12c1bcd8-ENG.png",
         "https://s3.us-east-2.amazonaws.com/shure-pubs-staging/graphics/f_7e014e2c-0e64-4316-9359-a69f034adcd0-ENG.png",
         "https://s3.us-east-2.amazonaws.com/shure-pubs-staging/graphics/f_3cfab716-a05c-421a-a897-22f0dbb3418d-ENG.png",
-        "https://cdn.pixabay.com/photo/2017/05/01/05/18/pastry-2274750_1280.jpg"
       ],
     ),
     EquipmentItem(
