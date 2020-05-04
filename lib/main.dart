@@ -1,65 +1,81 @@
-import 'package:backstage/Inventory/scannedPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import './Inventory/Current Inventory/currentInventoryScreen.dart'; // 1
-import './Inventory/Current Inventory/inventoryDetails.dart'; // 2
-import './Inventory/checkOutCartScreen.dart'; // 3
-import './Inventory/borrowed.dart'; // 4
-import './Inventory/inventoryHomePage.dart'; // 5
-import './Inventory/Current Inventory/editInventory.dart'; // 6
-import './Inventory/Current Inventory/editEquipmentInfo.dart'; // 7
-import './Inventory/barcodeScan.dart';
 
-import './Providers/equipment.dart';
-import './Providers/inventoryProvider.dart';
-import './Providers/cartProvider.dart';
+import './Providers&Services/equipment.dart'; // Phase 1.a
+import './Providers&Services/inventory.dart'; // Phase 1.b
+import './Providers&Services/cart.dart'; // Phase 1.c
 
+import './Inventory/inventoryHomeScreen.dart'; // Phase 1.0
+import './Inventory/Screens/currentInventoryScreen.dart'; // Phase 1.1
+import './Inventory/Screens/inventoryDetails.dart'; // Phase 1.2
+import './Inventory/Screens/editInventoryItem.dart'; // Phase 1.3
+import './Inventory/Screens/cartScreen.dart'; // Phase 1.4
+
+import './Providers&Services/auth.dart'; // Phase 2.a
+import './Models/userModels.dart'; // Phase 2.b
+
+import './UserAuthentication/authenticationScreen.dart';
+import 'Inventory/Screens/borrowedScreen.dart'; // Phase 2.0
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(
-          value: EquipmentFunctions(),
-        ),
-        ChangeNotifierProvider.value(
-          value: InventoryFunctions(),
-        ),
-        ChangeNotifierProvider.value(
-          value: Cart(),
-        ),
-      ],
-      child: MaterialApp(
-        title: 'MyShop',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          primaryColor: Colors.purple,
-          accentColor: Colors.amber,
-          errorColor: Colors.red,
-        ),
-        home: InventoryHomeScreen(),
-        routes: {
-          
-          InventoryHomeScreen.routeName: (ctx)  =>InventoryHomeScreen(),
+    return StreamProvider<User>.value(
+      value: AuthService().user,
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(
+            value: Equipments(),
+          ),
+          ChangeNotifierProvider.value(
+            value: Inventory(),
+          ),
+          ChangeNotifierProvider.value(
+            value: Cart(),
+          ),
+        ],
+        child: MaterialApp(
+          title: 'Backstage App',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            primaryColor: Colors.purple,
+            accentColor: Colors.amber,
+            errorColor: Colors.red,
+          ),
 
-          // Current Inventory
-          CurrentInventoryScreen.routeName: (ctx) => CurrentInventoryScreen(), 
-          InventoryDetail.routeName: (ctx) => InventoryDetail(),
-          CheckOutScreen.routeName: (ctx) => CheckOutScreen(),
-          BorrowedItemsScreen.routeName: (ctx) => BorrowedItemsScreen(),
+          home: Wrapper(),
 
-          EditInventory.routeName: (ctx) => EditInventory(''),
-          EditEquipmentScreen.routeName: (ctx) => EditEquipmentScreen(),
-
-          // Barcode Scanner
-          ScannedPage.routeName: (ctx) => ScannedPage(),
-          BarcodeScanner.routeName: (ctx) => BarcodeScanner()
-        },
-      ),
+          routes: {
+            InventoryHomeScreen.routeName: (ctx) => InventoryHomeScreen(),
+            CurrentInventoryScreen.routeName: (ctx) => CurrentInventoryScreen(),
+            InventoryDetailsScreen.routeName: (ctx) => InventoryDetailsScreen(),
+            EditInventoryScreen.routeName: (ctx) => EditInventoryScreen(),
+            CartScreen.routeName: (ctx) => CartScreen(),
+            BorrowedScreen.routeName: (ctx) => BorrowedScreen()
+          },
+        ),
+      )
+        
     );
+  }
+}
+
+class Wrapper extends StatelessWidget {
+  
+  @override
+  Widget build(BuildContext context) {
+
+    final user =Provider.of<User>(context);
+    
+    print(user);
+    if(user == null){
+      return AuthScreen();
+    } else { 
+      print(user.uid);
+      return InventoryHomeScreen();
+    }  
   }
 }

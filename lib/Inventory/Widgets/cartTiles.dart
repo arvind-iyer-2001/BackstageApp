@@ -1,26 +1,24 @@
+import 'package:backstage/Models/inventoryModels.dart';
+import 'package:backstage/Providers&Services/cart.dart';
+import 'package:backstage/Providers&Services/equipment.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../Providers/cartProvider.dart';
-import '../Providers/equipment.dart';
 
 class CartTiles extends StatelessWidget {
   CartTiles({
     @required this.cart,
-    @required this.currentCategory
   });
 
   final Cart cart;
-  final Category currentCategory;
 
   @override
   Widget build(BuildContext context) {
-    final cartItem = cart.inventoryItem; // .fetchByCategory(currentCategory);
+    final cartList = List<InventoryItem>.from(cart.items.values);
+    // final cartItem = cart.items.; // .fetchByCategory(currentCategory);
     return Container(
       child: ListView.builder(
-        itemCount: cartItem.length,
+        itemCount: cartList.length,
         itemBuilder: (ctx ,index) => Dismissible(
-          key: ValueKey(cartItem[index].itemId),
+          key: ValueKey(cartList[index].itemId),
           background: Container(
             color: Theme.of(context).errorColor,
             child: Icon(
@@ -37,7 +35,7 @@ class CartTiles extends StatelessWidget {
           ),
           direction: DismissDirection.endToStart,
           onDismissed: (direction) {
-            Provider.of<Cart>(context, listen: false).removeItem(cartItem[index].itemId);
+            cart.removeItem(cartList[index].itemId);
           },
           child: Card(
             margin: EdgeInsets.symmetric(
@@ -47,8 +45,13 @@ class CartTiles extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(8),
               child: ListTile(
-                title: Text('${Provider.of<EquipmentFunctions>(context).findByItemId(cartItem[index].equipmentId).title} ${cartItem[index].titleSuffix}'),
-                trailing: Text(cartItem[index].barcode),
+                title: StreamBuilder<EquipmentItem>(
+                  stream: Equipments(equipmentId: cartList[index].equipmentId).equipment,
+                  builder: (context, snapshot) {
+                    return Text(snapshot.data.title);
+                  }
+                ),
+                trailing: Text(cartList[index].barcode),
               ),
             ),
           ),

@@ -1,9 +1,10 @@
 import 'dart:io';
 
+import 'package:backstage/Inventory/Screens/inventoryDetails.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
-import 'package:backstage/Inventory/scannedPage.dart';
 
 class BarcodeScanner extends StatefulWidget {
   static const routeName = 'Barcode Scanner';
@@ -42,14 +43,23 @@ class _BarcodeScannerState extends State<BarcodeScanner> {
         {
           Scaffold.of(context).showSnackBar(
             SnackBar(
-              content: Text('No Barcode Found'),
+              content: Text('No Barcode Detected'),
             )
           );
         } else {
-          Navigator.of(context).pushNamed(
-            ScannedPage.routeName,
-            arguments: result
-          );
+          Firestore.instance.collection("Inventory").document('$result').get().then((docSnapshot) => {
+            if(docSnapshot.exists) {
+              print("Barcode Found"),
+              Navigator.of(context).pushNamed(InventoryDetailsScreen.routeName, arguments: result)
+            } else {
+              print("Barcode Not Found"),
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Barcode Not Found in Database'),
+                )
+              ),
+            }
+          });
         }
       });
     }
@@ -130,10 +140,10 @@ class _OCRState extends State<OCR> {
             )
           );
         } else {
-          Navigator.of(context).pushNamed(
-            ScannedPage.routeName,
-            arguments: result
-          );
+          // Navigator.of(context).pushNamed(
+          //   ScannedPage.routeName,
+          //   arguments: result
+          // );
         }
       });
     }

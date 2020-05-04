@@ -30,13 +30,17 @@ dependencies:
   dots_indicator: ^1.0.0
   # https://pub.dev/packages/dots_indicator
   flutter_spinkit: "^4.1.2"
-  # https://pub.dev/packages/flutter_spinkit#-readme-tab-
+  # https://pub.dev/packages/flutter_spinkit
+  firebase_auth: ^0.16.0
+  # https://pub.dev/packages/firebase_auth
   cloud_firestore: ^0.13.5
   # https://pub.dev/packages/cloud_firestore
   firebase_ml_vision: ^0.9.3+8
   # https://pub.dev/packages/firebase_ml_vision
   image_picker: ^0.6.5+2
   # https://pub.dev/packages/image_picker
+  google_sign_in: ^4.4.4
+  # https://pub.dev/packages/google_sign_in
   
 
   # The following adds the Cupertino Icons font to your application.
