@@ -11,12 +11,12 @@ import './Inventory/Screens/currentInventoryScreen.dart'; // Phase 1.1
 import './Inventory/Screens/inventoryDetails.dart'; // Phase 1.2
 import './Inventory/Screens/editInventoryItem.dart'; // Phase 1.3
 import './Inventory/Screens/cartScreen.dart'; // Phase 1.4
+import 'Inventory/Screens/borrowedScreen.dart'; // Phase 1.5
 
 import './Providers&Services/auth.dart'; // Phase 2.a
 import './Models/userModels.dart'; // Phase 2.b
 
-import './UserAuthentication/authenticationScreen.dart';
-import 'Inventory/Screens/borrowedScreen.dart'; // Phase 2.0
+import './UserAuthentication/authenticationScreen.dart';// Phase 2.0
 
 void main() => runApp(MyApp());
 

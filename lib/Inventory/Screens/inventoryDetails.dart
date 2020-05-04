@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:backstage/Models/inventoryModels.dart';
 import './cartScreen.dart';
-import './editInventoryItem.dart';
+// import './editInventoryItem.dart';
 import '../Widgets/feedback.dart';
 import '../../Providers&Services/cart.dart';
 import '../../Providers&Services/inventory.dart';
