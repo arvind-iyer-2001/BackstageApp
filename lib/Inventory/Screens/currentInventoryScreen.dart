@@ -7,6 +7,7 @@ import '../Widgets/inventoryAppDrawer.dart';
 import '../Widgets/barcodeScan.dart';
 import '../../SupplementaryWidgets/badge.dart';
 import '../../Providers&Services/cart.dart';
+import '../inventoryHomeScreen.dart';
 
 class CurrentInventoryScreen extends StatelessWidget {
   static const routeName = 'Current Inventory Screen';
@@ -15,7 +16,35 @@ class CurrentInventoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     Future<bool> _onBackPressed() {
-      return showDialog(context: null);
+      return showDialog(
+        context: context,
+        builder:(context) => AlertDialog(
+          title: Text('Exit this Screen'),
+          actions: <Widget>[
+            Container(
+              width: 300,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).pushReplacementNamed(InventoryHomeScreen.routeName);
+                    },
+                    child: Text('Yes')
+                  ),
+                  Divider(),
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('No')
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
     }
     
     return WillPopScope(

@@ -205,9 +205,9 @@ class InventoryDetailsScreen extends StatelessWidget {
                               scrollDirection: Axis.horizontal,
                               itemCount: equipment.imageUrl.length,
                               itemBuilder: (ctx, index) => Container(
-                                child: Image.network(
-                                  equipment.imageUrl[index],
-                                  fit: BoxFit.contain,
+                                child: FadeInImage(
+                                  placeholder: AssetImage('assets/images/micPlaceholder.jpg'),
+                                  image: NetworkImage(equipment.imageUrl[index]) ?? null
                                 ),
                                 // PageView & PageController https://www.youtube.com/watch?v=J1gE9xvph-A 
                               ),

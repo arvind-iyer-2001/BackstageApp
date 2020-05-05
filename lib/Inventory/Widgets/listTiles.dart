@@ -11,7 +11,7 @@ class ListTiles extends StatelessWidget {
 
   final EquipmentItem equipment;
   final List<InventoryItem> inventory;
-  int index;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,10 @@ class ListTiles extends StatelessWidget {
         child: ListTile(
           title: Text(equipment.title),
           leading: CircleAvatar(
-            child: Image.network(equipment.imageUrl[0]) ?? null,
+            child: FadeInImage(
+              placeholder: AssetImage('assets/images/micPlaceholder.jpg'),
+              image: NetworkImage(equipment.imageUrl[0]) ?? null
+            ),
             backgroundColor: Colors.blue[300],
           ),
           subtitle: Text(inventory[index].barcode),

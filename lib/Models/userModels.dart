@@ -1,16 +1,19 @@
-class User {
+import 'package:flutter/cupertino.dart';
 
+class User {
   final String uid;
-  
+
   User({ this.uid });
 }
-class UserData {
+class Member with ChangeNotifier {
 
   final String yearOfJoining;
   final String name;
-  final String dateOfBirth;
+  final DateTime dateOfBirth;
   final String memberType;
   final String uid;
+  // final List<Events> allotted;
+  // final List<InventoryItem> itemLogs;
 
-  UserData({this.uid,this.memberType,this.yearOfJoining,this.dateOfBirth,this.name});
+  Member({this.uid,this.memberType,this.yearOfJoining,this.dateOfBirth,this.name});
 }

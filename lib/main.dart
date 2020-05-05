@@ -1,3 +1,5 @@
+import 'package:backstage/AppWideDisplay/credits.dart';
+import 'package:backstage/AppWideDisplay/mainHomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +18,7 @@ import 'Inventory/Screens/borrowedScreen.dart'; // Phase 1.5
 import './Providers&Services/auth.dart'; // Phase 2.a
 import './Models/userModels.dart'; // Phase 2.b
 
-import './UserAuthentication/authenticationScreen.dart';// Phase 2.0
+import 'UserAuthentication/signIn.dart'; // Phase 2.0
 
 void main() => runApp(MyApp());
 
@@ -40,21 +42,28 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: 'Backstage App',
           theme: ThemeData(
+            scaffoldBackgroundColor: Colors.red[100],
             primarySwatch: Colors.blue,
-            primaryColor: Colors.purple,
-            accentColor: Colors.amber,
+            primaryColor: Colors.redAccent[700],
+            accentColor: Colors.white,
             errorColor: Colors.red,
           ),
-
+          debugShowCheckedModeBanner: false,
           home: Wrapper(),
 
           routes: {
+            MainHomeScreen.routeName: (ctx) => MainHomeScreen(),
+            Credits.routeName: (ctx) => Credits(),
+
+            // Phase 1
             InventoryHomeScreen.routeName: (ctx) => InventoryHomeScreen(),
             CurrentInventoryScreen.routeName: (ctx) => CurrentInventoryScreen(),
             InventoryDetailsScreen.routeName: (ctx) => InventoryDetailsScreen(),
             EditInventoryScreen.routeName: (ctx) => EditInventoryScreen(),
             CartScreen.routeName: (ctx) => CartScreen(),
             BorrowedScreen.routeName: (ctx) => BorrowedScreen()
+
+            // Phase 2
           },
         ),
       )
@@ -72,10 +81,10 @@ class Wrapper extends StatelessWidget {
     
     print(user);
     if(user == null){
-      return AuthScreen();
+      return SignIn();
     } else { 
       print(user.uid);
-      return InventoryHomeScreen();
+      return MainHomeScreen();
     }  
   }
 }

@@ -1,7 +1,6 @@
 import 'package:backstage/Inventory/Screens/borrowedScreen.dart';
 import 'package:backstage/Inventory/Screens/currentInventoryScreen.dart';
 import 'package:backstage/Inventory/Widgets/barcodeScan.dart';
-import 'package:backstage/Providers&Services/auth.dart';
 import 'package:flutter/material.dart';
 
 import '../inventoryHomeScreen.dart';
@@ -40,14 +39,6 @@ class RightAppDrawer extends StatelessWidget {
             title: Text('Manage Inventory Items'),
             onTap: () {
               Navigator.of(context).pushReplacementNamed(CurrentInventoryScreen.routeName);
-            },
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.transit_enterexit),
-            title: Text('Sign Out'),
-            onTap: () async {
-              await AuthService().signOut();
             },
           ),
           Divider(),
