@@ -90,7 +90,7 @@ class CurrentInventoryScreen extends StatelessWidget {
                   },
                 ),
                 value: cart.items.length.toString(),
-                color: Colors.red,
+                color: Colors.green,
               ),
             ),
           ],

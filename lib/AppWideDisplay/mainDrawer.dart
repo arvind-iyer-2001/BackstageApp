@@ -1,5 +1,6 @@
 import 'package:backstage/AppWideDisplay/mainHomePage.dart';
-import 'package:backstage/Inventory/inventoryHomeScreen.dart';
+import 'package:backstage/Inventory/Screens/currentInventoryScreen.dart';
+// import 'package:backstage/Inventory/inventoryHomeScreen.dart';
 import 'package:backstage/Providers&Services/auth.dart';
 import 'package:flutter/material.dart';
 
@@ -10,15 +11,21 @@ class MainDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      elevation: 10,
+      
         child: ListView(
           children: <Widget>[
             DrawerHeader(
               child: const Text(
-                "Backstage Utility App",
+                "Backstage\nUtility\nApp",
                 style: TextStyle(
-                  fontStyle: FontStyle.italic),
-                  textScaleFactor: 2.0,
+                  fontFamily: 'Raleway',
+                  fontStyle: FontStyle.italic,
+                  color: Colors.white,
+                  fontSize: 19
                 ),
+                textScaleFactor: 2.0,
+              ),
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor
               ), 
@@ -41,7 +48,7 @@ class MainDrawer extends StatelessWidget {
               leading: const Icon(Icons.input),
               
               onTap: () {
-                Navigator.of(context).pushReplacementNamed(InventoryHomeScreen.routeName);
+                Navigator.of(context).pushReplacementNamed(CurrentInventoryScreen.routeName);
               },
             ),
             Divider(),

@@ -8,7 +8,6 @@ import '../Widgets/feedback.dart';
 import '../../Providers&Services/cart.dart';
 import '../../Providers&Services/inventory.dart';
 import '../../Providers&Services/equipment.dart';
-import '../../SupplementaryWidgets/badge.dart';
 
 class InventoryDetailsScreen extends StatelessWidget {
   
@@ -82,34 +81,6 @@ class InventoryDetailsScreen extends StatelessWidget {
             }
             final equipment = snapshot.data;
             return Scaffold(
-              appBar: AppBar(
-                title: Text('${equipment.title} ${inventoryItem.titleSuffix}'),
-                centerTitle: true,
-                actions: <Widget>[
-                  Consumer<Cart>(
-                    builder: (ctx, cart, child)=> Badge(
-                      child: FlatButton.icon(
-                        label: Text(
-                          'Cart',
-                          style: TextStyle(
-                            color: Colors.white
-                          ),
-                        ),
-                        icon: Icon(
-                          Icons.shopping_basket,
-                          color: Colors.white
-                        ),
-                        onPressed: () {
-                          cart.addInventoryItemtoCart(inventoryItem);
-                          Navigator.of(context).pushNamed(CartScreen.routeName);
-                        },
-                      ),
-                      value: cart.items.length.toString(),
-                      color: Colors.red,
-                    ),
-                  ),
-                ],
-              ),
               floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
               floatingActionButton: inventoryItem.borrowed
               ? FloatingActionButton.extended(
@@ -123,7 +94,26 @@ class InventoryDetailsScreen extends StatelessWidget {
                 },
                 label: Text("Return"),
               )
-              : null,
+              : Consumer<Cart>(
+                builder: (ctx, cart, child)=> FloatingActionButton.extended(
+                  highlightElevation: 10,
+                  hoverColor: Theme.of(context).primaryColor,
+                  label: Text(
+                    'Add to Cart',
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor
+                    ),
+                  ),
+                  icon: Icon(
+                    Icons.add,
+                    color: Theme.of(context).primaryColor
+                  ),
+                  onPressed: () {
+                    cart.addInventoryItemtoCart(inventoryItem);
+                    Navigator.of(context).pushNamed(CartScreen.routeName);
+                  },
+                ),
+              ),
               persistentFooterButtons: <Widget>[
                 Container(
                   height: 40,
@@ -156,14 +146,14 @@ class InventoryDetailsScreen extends StatelessWidget {
                           },
                           icon: Icon(Icons.view_list),
                           label: Text("View Item Log"),
-                          color: Colors.purple,
+                          color: Theme.of(context).primaryColor,
                         ),
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width *0.4,
                         height: 50,
                         child: FlatButton.icon(
-                          color: Colors.purple,
+                          color: Theme.of(context).primaryColor,
                           onPressed: () {
                             // Navigator.of(context).pushNamed(EditInventoryScreen.routeName, arguments: inventoryItem.itemId);
                           },
@@ -186,101 +176,130 @@ class InventoryDetailsScreen extends StatelessWidget {
                 SizedBox(height: 10,)
               ],
 
-              body: Container(
-                padding: EdgeInsets.all(10),
-                height: MediaQuery.of(context).size.height - AppBar().preferredSize.height - 50,
-                width: double.infinity,
-                child: Card(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: <Widget>[
-                        Card(
-                          elevation: 10,
-                          child: Container(
-                            padding: EdgeInsets.all(5),
-                            height: MediaQuery.of(context).size.width-30,
-                            width: MediaQuery.of(context).size.width-30,
-                            child: PageView.builder(
-                              controller: pageController,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: equipment.imageUrl.length,
-                              itemBuilder: (ctx, index) => Container(
-                                child: FadeInImage(
-                                  placeholder: AssetImage('assets/images/micPlaceholder.jpg'),
-                                  image: NetworkImage(equipment.imageUrl[index]) ?? null
-                                ),
-                                // PageView & PageController https://www.youtube.com/watch?v=J1gE9xvph-A 
+              body: SafeArea(
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  height: MediaQuery.of(context).size.height - 40,
+                  width: double.infinity,
+                  child: Card(
+                    elevation: 10,
+                    child: CustomScrollView(
+                      slivers: <Widget>[
+                        SliverAppBar(
+                          expandedHeight: MediaQuery.of(context).size.width-30,
+                          pinned: true,
+                          flexibleSpace: FlexibleSpaceBar(
+                            titlePadding: EdgeInsets.all(10),
+                            title: Text(
+                              '${equipment.title} ${inventoryItem.titleSuffix}',
+                              style: TextStyle(
+                                color: Colors.black,
+                                backgroundColor: Colors.white
                               ),
                             ),
-                          ),
-                        ),
-
-                        SizedBox(
-                          height: 10
-                        ),
-                        Container(
-                          child: Text(
-                            inventoryItem.barcode,
-                            style: TextStyle(
-                              color: inventoryItem.borrowed
-                              ? Colors.red
-                              : Colors.green,
-                              fontSize: 20,
+                            centerTitle: true,
+                            background: Card(
+                              elevation: 10,
+                              child: Container(
+                                padding: EdgeInsets.all(5),
+                                height: MediaQuery.of(context).size.width-30,
+                                width: MediaQuery.of(context).size.width-30,
+                                child: PageView.builder(
+                                  controller: pageController,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: equipment.imageUrl.length,
+                                  itemBuilder: (ctx, index) => Container(
+                                    child: Hero(
+                                      tag: '${inventoryItem.itemId} - 0',
+                                      child: FadeInImage(
+                                        placeholder: AssetImage('assets/images/micPlaceholder.jpg'),
+                                        image: NetworkImage(equipment.imageUrl[index]) ?? null,
+                                        fit: BoxFit.contain,
+                                        fadeInCurve: Curves.bounceIn,
+                                        fadeInDuration: Duration(milliseconds: 200),
+                                        fadeOutDuration: Duration(milliseconds: 100),
+                                      ),
+                                    ),
+                                    // PageView & PageController https://www.youtube.com/watch?v=J1gE9xvph-A 
+                                  ),
+                                ),
+                              ),
                             ),
+                            
                           ),
                         ),
-
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Card(
-                          elevation: 10,
-                          child: Container(
-                            width: MediaQuery.of(context).size.width-20,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    "Features",
+                        SliverList(
+                          delegate: SliverChildListDelegate([
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 1),
+                              color: Theme.of(context).primaryColor,
+                              child: Card(
+                                child: Center(
+                                  child: Text(
+                                    inventoryItem.barcode,
                                     style: TextStyle(
-                                      fontSize: 30
+                                      color: inventoryItem.borrowed
+                                      ? Colors.red
+                                      : Colors.green,
+                                      fontSize: 20,
                                     ),
                                   ),
-                                  Divider(),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width-20,
-                                    child: SingleChildScrollView(
-                                      child: Container(
-                                        height: 300,
-                                        padding: EdgeInsets.symmetric(horizontal: 10),
-                                        width: double.infinity-10,
-                                        child: ListView.builder(
-                                          itemCount: equipment.description.length,
-                                          itemBuilder: (ctx, index) => Text(
-                                            '-> ${equipment.description[index]}',
-                                            textAlign: TextAlign.left,
-                                            softWrap: true,
-                                            style: TextStyle(
-                                              fontSize: 20
+                                ),
+                              ),
+                            ),
+                            Container(
+                              color: Theme.of(context).primaryColor,
+                              child: Card(
+                                elevation: 10,
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width-20,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(
+                                        "Features",
+                                        style: TextStyle(
+                                          fontSize: 30
+                                        ),
+                                      ),
+                                      Divider(),
+                                      Container(
+                                        width: MediaQuery.of(context).size.width-20,
+                                        child: SingleChildScrollView(
+                                          child: Container(
+                                            height: 450,
+                                            padding: EdgeInsets.symmetric(horizontal: 10),
+                                            width: double.infinity-10,
+                                            child: ListView.builder(
+                                              itemCount: equipment.description.length,
+                                              itemBuilder: (ctx, index) => Text(
+                                                '-> ${equipment.description[index]}',
+                                                textAlign: TextAlign.left,
+                                                softWrap: true,
+                                                style: TextStyle(
+                                                  fontSize: 20
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
+                                    ],
                                   ),
-
-                                ],
+                                ),
                               ),
                             ),
-                          ),
-                          Container(
-                            height: 80
-                          )
-                        
-                        ],
-                      ),
+                            Container(
+                              height: 500,
+                              color: Theme.of(context).primaryColor,
+                              child: Card(),
+                            )
+                          ])
+                        )
+                      ],
                     ),
+                  ),
                 ),
               ),
             );

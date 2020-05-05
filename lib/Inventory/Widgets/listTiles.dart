@@ -22,9 +22,16 @@ class ListTiles extends StatelessWidget {
         child: ListTile(
           title: Text(equipment.title),
           leading: CircleAvatar(
-            child: FadeInImage(
-              placeholder: AssetImage('assets/images/micPlaceholder.jpg'),
-              image: NetworkImage(equipment.imageUrl[0]) ?? null
+            child: Hero(
+              tag: '${inventory[index].itemId} - 0',
+              child: FadeInImage(
+                placeholder: AssetImage('assets/images/micPlaceholder.jpg'),
+                image: NetworkImage(equipment.imageUrl[0]) ?? null,
+                fit: BoxFit.cover,
+                fadeInCurve: Curves.bounceIn,
+                fadeInDuration: Duration(milliseconds: 200),
+                fadeOutDuration: Duration(milliseconds: 100),
+              ),
             ),
             backgroundColor: Colors.blue[300],
           ),
