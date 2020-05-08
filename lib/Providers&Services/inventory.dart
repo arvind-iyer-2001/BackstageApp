@@ -8,8 +8,6 @@ class Inventory with ChangeNotifier {
   Inventory({this.itemId});
   final CollectionReference inventoryCollection = Firestore.instance.collection("Inventory");
 
-
-
   // Get the List of Inventory
   List<InventoryItem> _inventoryFromSnapshot (QuerySnapshot snapshot){
     return snapshot.documents.map((doc){
@@ -50,7 +48,7 @@ class Inventory with ChangeNotifier {
   List<InventoryItem> _borrowedInventoryFromSnapshot (QuerySnapshot snapshot){
     return snapshot.documents.map((doc){
       if(doc.data['Borrowed'] == true){
-        return InventoryItem(
+        final inventoryItem = InventoryItem(
           barcode: doc.data['Barcode'] as String,
           borrowed: doc.data['Borrowed'] as bool,
           equipmentId: doc.data['Equipment Id'] as String,
@@ -58,6 +56,9 @@ class Inventory with ChangeNotifier {
           titleSuffix: doc.data['Title Suffix'] as String,
           workingCondition: doc.data['Working Condition'] as bool
         );
+        
+
+        return inventoryItem;
       }
       return null;
     }).toList();
@@ -131,10 +132,15 @@ class Inventory with ChangeNotifier {
       final CollectionReference itemLogCollection = Firestore.instance.collection('Inventory').document(element.itemId).collection("Item Log");
       await inventoryCollection.document(element.itemId).updateData({
         'Borrowed': true,
-      }).then((_) {
-        // int currentLength = int.parse(itemLogCollection.snapshots().length.toString());
-        itemLogCollection.add({
-          'Borrow Time': DateTime.now().toIso8601String(),
+      }).then((_) async {
+        final currentTime = DateTime.now();
+        int currentLength = 0;
+        Firestore.instance.collection('Inventory/${element.itemId}/Item Log').getDocuments().then((doc){
+          print(doc.documents.length);
+          currentLength = doc.documents.length + 10;
+        });
+        await itemLogCollection.document('Log -${currentLength + 1}').setData({
+          'Borrow Time': currentTime,
           'Borrowing User': borrowingUserUid,
           'Borrow Feedback': feedback
         });
@@ -155,8 +161,16 @@ class Inventory with ChangeNotifier {
     await inventoryCollection.document(borrowedItem.itemId).updateData({
       'Borrowed': false
     }).then((_) async {
-      // int currentLength = int.parse(itemLogCollection.snapshots().length.toString());
-      await itemLogCollection.add({
+      int currentLength = 0;
+      Firestore.instance.collection('Inventory/${borrowedItem.itemId}/Item Log').snapshots().listen((data){
+        data.documents.forEach((doc){
+          currentLength++;
+          print(currentLength);
+        });
+      });
+      print(currentLength);
+      
+      await itemLogCollection.document('Log -$currentLength').setData({
         'Return Time': currentTime,
         'Returning User': retruningUserUid,
         'Feedback': feedback

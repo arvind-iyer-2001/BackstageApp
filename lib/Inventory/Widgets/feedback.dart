@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../Screens/currentInventoryScreen.dart';
 import '../../Models/inventoryModels.dart';
 import '../../Models/userModels.dart';
 import '../../Providers&Services/inventory.dart';
@@ -60,7 +59,8 @@ class _ItemUsageFeedbackState extends State<ItemUsageFeedback> {
               child: Text('Return Item'),
               onPressed: () async {
                 await Inventory().returningingItem(widget.inventoryItem, _currentFeedback, Provider.of<User>(context,listen: false).uid);
-                Navigator.of(context).pushReplacementNamed(CurrentInventoryScreen.routeName);
+                Navigator.of(context).pop();
+                
               }
             )
             
