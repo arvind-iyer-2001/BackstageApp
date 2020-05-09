@@ -58,7 +58,7 @@ class _ItemUsageFeedbackState extends State<ItemUsageFeedback> {
             RaisedButton(
               child: Text('Return Item'),
               onPressed: () async {
-                await Inventory().returningingItem(widget.inventoryItem, _currentFeedback, Provider.of<User>(context,listen: false).uid);
+                Inventory().returningingItem(widget.inventoryItem, _currentFeedback, Provider.of<User>(context,listen: false).uid);
                 Navigator.of(context).pop();
                 
               }

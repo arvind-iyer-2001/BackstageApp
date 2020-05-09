@@ -1,3 +1,4 @@
+import 'package:backstage/Inventory/Widgets/itemLogDisplay.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -131,13 +132,21 @@ class InventoryDetailsScreen extends StatelessWidget {
                               builder: (context){
                                 return Container(
                                   width: MediaQuery.of(context).size.width,
-                                  height: MediaQuery.of(context).size.height * 0.6,
+                                  height: MediaQuery.of(context).size.height * 0.7,
                                   padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                                   child: Column(
                                     children: <Widget>[
-                                    Text('Inventory Item Log'),
+                                    Text(
+                                      'Inventory Item Log',
+                                      style: TextStyle(
+                                        color: Theme.of(context).primaryColorLight,
+                                        fontSize: 30
+                                      ),
+                                    ),
                                     Divider(),
-                                    // ItemLogDisplay(itemId),
+                                    Expanded(
+                                      child: ItemLogDisplay(itemId)
+                                    ),
                                     ],
                                   ),
                                 );

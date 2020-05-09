@@ -17,8 +17,8 @@ class EquipmentItem with ChangeNotifier {
 }
 
 class ItemLog with ChangeNotifier{
-  final String borrowTime;
-  final String returnTime;
+  final DateTime borrowTime;
+  final DateTime returnTime;
   final String usageID;
   final String feedback;
   final String borrowUserUid;

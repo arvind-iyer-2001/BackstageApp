@@ -18,7 +18,6 @@ import 'Inventory/Screens/borrowedScreen.dart'; // Phase 1.5
 import './Providers&Services/auth.dart'; // Phase 2.a
 import './Models/userModels.dart'; // Phase 2.b
 
-import 'SupplementaryWidgets/customRoute.dart';
 import 'UserAuthentication/signIn.dart'; // Phase 2.0
 
 void main() => runApp(MyApp());
@@ -48,12 +47,6 @@ class MyApp extends StatelessWidget {
             primaryColor: Colors.redAccent[700],
             accentColor: Colors.white,
             errorColor: Colors.red,
-            pageTransitionsTheme: PageTransitionsTheme(
-              builders: {
-                TargetPlatform.android: CustomPageTransitionBuilder(),
-                TargetPlatform.iOS: CustomPageTransitionBuilder()
-              }
-            )
           ),
           debugShowCheckedModeBanner: false,
           home: Wrapper(),
