@@ -1,6 +1,6 @@
 # backstage
 
-A new Flutter project.
+A Flutter project to conduct the daily functioning of the Backstage Community.
 
 ## Getting Started
 
